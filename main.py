@@ -27,3 +27,13 @@ def fft(x):
 
 def ifft(x):
     return [num / len(x) for num in np.roll(np.flip(fft(x)), 1)]
+
+
+def main():
+    signal = [1, 2, 4, 6, 6, 7, 1, 4, 3, 10, 7, 5, 2, 3, 6, 5]
+    print(signal)
+    print(fft(signal))
+
+
+if __name__ == "__main__":
+    main()
