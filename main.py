@@ -3,6 +3,8 @@ import math
 from PIL import Image
 import cmath as cm
 import matplotlib.pyplot as plt
+import simpleaudio as sa
+import wave
 
 
 def round_to(z, k):
@@ -75,6 +77,13 @@ def cyclic_conv(arr1, arr2):
         return cyclic_conv(arr2, arr1)
 
 
+def sample_signal(filename, fs):
+    with wave.open(filename, "rb") as wf:
+        num_samples = wf.getnframes()
+        signal = np.frombuffer(wf.readframes(num_samples), dtype=np.int16)
+    return signal[::fs]
+
+
 def main():
     # signal = [1, 2, 4, 6, 6, 7, 1, 4, 3, 10, 7, 5, 2, 3, 6, 5]
     # print(signal)
@@ -98,9 +107,9 @@ def main():
     # plt.show()
 
     # importing the images
-    h = Image.open('h.png')
-    y1 = Image.open('y1.png')
-    y2 = Image.open('y2.png')
+    # h = Image.open('h.png')
+    # y1 = Image.open('y1.png')
+    # y2 = Image.open('y2.png')
     # y3 = Image.open('y3.png')
 
     # mat_h = np.array(h)
@@ -131,35 +140,94 @@ def main():
 
     # 7
 
-    Y1 = dft2d(np.array(y1))
-    h1 = np.zeros(Y1.shape)
-    h1[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
-    H1 = dft2d(h1)
-    X1 = Y1 / H1
+    # Y1 = dft2d(np.array(y1))
+    # h1 = np.zeros(Y1.shape)
+    # h1[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
+    # H1 = dft2d(h1)
+    # X1 = Y1 / H1
 
-    plt.matshow(np.real(X1), cmap='cividis')
-    plt.title('X1[n,m]: ')
-    plt.show()
+    # plt.matshow(np.real(X1), cmap='cividis')
+    # plt.title('X1[n,m]: ')
+    # plt.show()
 
-    x1 = idft2d(X1)
-    plt.matshow(np.real(x1), cmap='cividis')
-    plt.title('Recovered x1[n,m]: ')
-    plt.show()
+    # x1 = idft2d(X1)
+    # plt.matshow(np.real(x1), cmap='cividis')
+    # plt.title('Recovered x1[n,m]: ')
+    # plt.show()
 
-    Y2 = dft2d(np.array(y2))
-    h2 = np.zeros(Y2.shape)
-    h2[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
-    H2 = dft2d(h2)
-    X2 = Y2 / H2
+    # Y2 = dft2d(np.array(y2))
+    # h2 = np.zeros(Y2.shape)
+    # h2[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
+    # H2 = dft2d(h2)
+    # X2 = Y2 / H2
 
-    plt.matshow(np.real(X2), cmap='cividis')
-    plt.title('X2[n,m]: ')
-    plt.show()
+    # plt.matshow(np.real(X2), cmap='cividis')
+    # plt.title('X2[n,m]: ')
+    # plt.show()
 
-    x2 = idft2d(X2)
-    plt.matshow(np.real(x2), cmap='cividis')
-    plt.title('Recovered x2[n,m]: ')
-    plt.show()
+    # x2 = idft2d(X2)
+    # plt.matshow(np.real(x2), cmap='cividis')
+    # plt.title('Recovered x2[n,m]: ')
+    # plt.show()
+
+    # Part two
+
+    d1 = 0.214609687
+    d2 = 0.325694081
+    d = (d1 + d2) % 0.5
+    N = 2 ** 16
+
+    fs = 16000
+    note = sample_signal("test.wav", 6)
+    x = np.pad(note / max(note), int((N - len(note)) / 2))
+    x2 = [k ** 2 for k in x]
+
+    # 1
+
+    p = sum(x2) / N
+    # print(p)
+
+    # 2
+
+    w1 = 1.6 + 0.1 * d1
+    w2 = 1.6 + 0.1 * d
+    w3 = 3
+    z = [50 * np.sqrt(p) * (np.cos(w1 * n) + np.cos(w2 * n) + np.cos(w3 * n)) for n in range(N)]
+    y = x + z
+    # audio = y.astype(np.int16)
+    # play_obj = sa.play_buffer(audio, 1, 2, fs)
+    # play_obj.wait_done()
+
+    # 3
+
+    # plt.plot(y)
+    # plt.title('y[n]:')
+    # plt.show()
+
+    # 4
+
+    # Y = [dtft(y, (i - 128) * 2 * np.pi / 128) for i in range(257)]
+    # plt.plot(Y)
+    # plt.title('Y[k]:')
+    # plt.show()
+
+    # 6
+
+    # y2 = y[::2]
+    # plt.plot(y2)
+    # plt.title('y2[n]:')
+    # plt.show()
+
+    # Y2 = [dtft(y2, (i - 128) * 2 * np.pi / 128) for i in range(257)]
+    # plt.plot(Y2)
+    # plt.title('Y2[k]:')
+    # plt.show()
+
+    x = np.pad(note, int((N - len(note)) / 2))
+    y = x + z
+    # audio = y[::2].astype(np.int16)
+    # play_obj = sa.play_buffer(audio, 1, 2, fs)
+    # play_obj.wait_done()
 
 
 if __name__ == "__main__":
