@@ -58,6 +58,12 @@ def dft2d(mat):
     return np.array([np.fft.fft(m[i]) for i in range(len(m))]).transpose()
 
 
+def idft2d(mat):
+    mat = np.array(mat).transpose()
+    m = np.array([np.fft.ifft(mat[i]) for i in range(len(mat))]).transpose()
+    return np.array([np.fft.ifft(m[i]) for i in range(len(m))])
+
+
 def cyclic_conv(arr1, arr2):
     if len(arr1) >= len(arr2):
         arr2 += [0] * (len(arr1) - len(arr2))
@@ -122,6 +128,42 @@ def main():
     # plt.stem(cyclic_conv(w, h0))
     # plt.title('The cyclic convolution of h0 and w: ')
     # plt.show()
+
+    # 7
+
+    Y1 = dft2d(np.array(y1))
+    h1 = np.zeros(Y1.shape)
+    h1[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
+    H1 = dft2d(h1)
+    X1 = Y1 / H1
+
+    plt.matshow(np.real(X1))
+    plt.title('X1[n,m]: ')
+    plt.colorbar()
+    plt.show()
+
+    x1 = idft2d(X1)
+    plt.matshow(np.real(x1))
+    plt.title('Recovered x1[n,m]: ')
+    plt.colorbar()
+    plt.show()
+
+    Y2 = dft2d(np.array(y2))
+    h2 = np.zeros(Y2.shape)
+    h2[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
+    H2 = dft2d(h2)
+    X2 = Y2 / H2
+
+    plt.matshow(np.real(X2))
+    plt.title('X2[n,m]: ')
+    plt.colorbar()
+    plt.show()
+
+    x2 = idft2d(X2)
+    plt.matshow(np.real(x2))
+    plt.title('Recovered x2[n,m]: ')
+    plt.colorbar()
+    plt.show()
 
 
 if __name__ == "__main__":
