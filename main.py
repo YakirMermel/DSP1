@@ -101,10 +101,10 @@ def main():
     h = Image.open('h.png')
     y1 = Image.open('y1.png')
     y2 = Image.open('y2.png')
-    y3 = Image.open('y3.png')
+    # y3 = Image.open('y3.png')
 
-    mat_h = np.array(h)
-    h0 = mat_h.transpose()[0]
+    # mat_h = np.array(h)
+    # h0 = mat_h.transpose()[0]
     # print(h0)
 
     # 5
@@ -120,10 +120,10 @@ def main():
 
     # 6
 
-    h0 = [0, 0, 23]
-    w = [0 for _ in range(32)]
-    w[0] = 1
-    w[29] = 1
+    # h0 = [0, 0, 23]
+    # w = [0 for _ in range(32)]
+    # w[0] = 1
+    # w[29] = 1
     # print(cyclic_conv(w, h0))
     # plt.stem(cyclic_conv(w, h0))
     # plt.title('The cyclic convolution of h0 and w: ')
@@ -137,15 +137,13 @@ def main():
     H1 = dft2d(h1)
     X1 = Y1 / H1
 
-    plt.matshow(np.real(X1))
+    plt.matshow(np.real(X1), cmap='cividis')
     plt.title('X1[n,m]: ')
-    plt.colorbar()
     plt.show()
 
     x1 = idft2d(X1)
-    plt.matshow(np.real(x1))
+    plt.matshow(np.real(x1), cmap='cividis')
     plt.title('Recovered x1[n,m]: ')
-    plt.colorbar()
     plt.show()
 
     Y2 = dft2d(np.array(y2))
@@ -154,15 +152,13 @@ def main():
     H2 = dft2d(h2)
     X2 = Y2 / H2
 
-    plt.matshow(np.real(X2))
+    plt.matshow(np.real(X2), cmap='cividis')
     plt.title('X2[n,m]: ')
-    plt.colorbar()
     plt.show()
 
     x2 = idft2d(X2)
-    plt.matshow(np.real(x2))
+    plt.matshow(np.real(x2), cmap='cividis')
     plt.title('Recovered x2[n,m]: ')
-    plt.colorbar()
     plt.show()
 
 
