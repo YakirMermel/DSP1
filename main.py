@@ -93,82 +93,83 @@ def main():
 
     # 4
 
-    # mat = np.array([[f1(n, m) for m in range(64)] for n in range(32)])
-    # plt.matshow(mat)
-    # plt.title('original x[n,m]: ')
-    # plt.colorbar()
-    # plt.show()
+    mat = np.array([[f1(n, m) for m in range(64)] for n in range(32)])
+    plt.matshow(mat)
+    plt.title('original x[n,m]: ')
+    plt.colorbar()
+    plt.show()
 
-    # dft = np.real(dft2d(mat))
-    # print(dft)
-    # plt.matshow(dft)
-    # plt.title('DFT(x[n,m]): ')
-    # plt.colorbar()
-    # plt.show()
+    plt.matshow(np.real(dft2d(mat)))
+    plt.title('Re(DFT(x[n,m])): ')
+    plt.colorbar()
+    plt.show()
+
+    plt.matshow(np.imag(dft2d(mat)))
+    plt.title('Im(DFT(x[n,m])): ')
+    plt.colorbar()
+    plt.show()
 
     # importing the images
-    # h = Image.open('h.png')
-    # y1 = Image.open('y1.png')
-    # y2 = Image.open('y2.png')
-    # y3 = Image.open('y3.png')
+    h = Image.open('h.png')
+    y1 = Image.open('y1.png')
+    y2 = Image.open('y2.png')
+    y3 = Image.open('y3.png')
 
-    # mat_h = np.array(h)
-    # h0 = mat_h.transpose()[0]
-    # print(h0)
+    mat_h = np.array(h)
+    h0 = mat_h.transpose()[0]
 
     # 5
 
-    # print("H(e^(j*0*n))", end=': ')
-    # print(round_to(dtft(h0, 0), 10))
-    # print("H(e^(j*pi/3*n))", end=': ')
-    # print(round_to(dtft(h0, cm.pi / 3), 10))
-    # print("H(e^(j*2pi/3*n))", end=': ')
-    # print(round_to(dtft(h0, 2 * cm.pi / 3), 10))
-    # print("H(e^(j*4pi/3A*n))", end=': ')
-    # print(round_to(dtft(h0, 4 * cm.pi / 3), 10))
+    print("H(e^(j*0*n))", end=': ')
+    print(round_to(dtft(h0, 0), 10))
+    print("H(e^(j*pi/3*n))", end=': ')
+    print(round_to(dtft(h0, cm.pi / 3), 10))
+    print("H(e^(j*2pi/3*n))", end=': ')
+    print(round_to(dtft(h0, 2 * cm.pi / 3), 10))
+    print("H(e^(j*4pi/3A*n))", end=': ')
+    print(round_to(dtft(h0, 4 * cm.pi / 3), 10))
 
     # 6
 
-    # h0 = [0, 0, 23]
-    # w = [0 for _ in range(32)]
-    # w[0] = 1
-    # w[29] = 1
-    # print(cyclic_conv(w, h0))
-    # plt.stem(cyclic_conv(w, h0))
-    # plt.title('The cyclic convolution of h0 and w: ')
-    # plt.show()
+    h0 = [0, 0, 23]
+    w = [0 for _ in range(32)]
+    w[0] = 1
+    w[29] = 1
+    plt.stem(cyclic_conv(w, h0))
+    plt.title('The cyclic convolution of h0 and w: ')
+    plt.show()
 
     # 7
 
-    # Y1 = dft2d(np.array(y1))
-    # h1 = np.zeros(Y1.shape)
-    # h1[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
-    # H1 = dft2d(h1)
-    # X1 = Y1 / H1
+    Y1 = dft2d(np.array(y1))
+    h1 = np.zeros(Y1.shape)
+    h1[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
+    H1 = dft2d(h1)
+    X1 = Y1 / H1
 
-    # plt.matshow(np.real(X1), cmap='cividis')
-    # plt.title('X1[n,m]: ')
-    # plt.show()
+    plt.matshow(np.real(X1), cmap='cividis')
+    plt.title('X1[n,m]: ')
+    plt.show()
 
-    # x1 = idft2d(X1)
-    # plt.matshow(np.real(x1), cmap='cividis')
-    # plt.title('Recovered x1[n,m]: ')
-    # plt.show()
+    x1 = idft2d(X1)
+    plt.matshow(np.real(x1), cmap='cividis')
+    plt.title('Recovered x1[n,m]: ')
+    plt.show()
 
-    # Y2 = dft2d(np.array(y2))
-    # h2 = np.zeros(Y2.shape)
-    # h2[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
-    # H2 = dft2d(h2)
-    # X2 = Y2 / H2
+    Y2 = dft2d(np.array(y2))
+    h2 = np.zeros(Y2.shape)
+    h2[0:np.array(h).shape[0], 0:np.array(h).shape[1]] = h
+    H2 = dft2d(h2)
+    X2 = Y2 / H2
 
-    # plt.matshow(np.real(X2), cmap='cividis')
-    # plt.title('X2[n,m]: ')
-    # plt.show()
+    plt.matshow(np.real(X2), cmap='cividis')
+    plt.title('X2[n,m]: ')
+    plt.show()
 
-    # x2 = idft2d(X2)
-    # plt.matshow(np.real(x2), cmap='cividis')
-    # plt.title('Recovered x2[n,m]: ')
-    # plt.show()
+    x2 = idft2d(X2)
+    plt.matshow(np.real(x2), cmap='cividis')
+    plt.title('Recovered x2[n,m]: ')
+    plt.show()
 
     # Part two
 
@@ -185,7 +186,8 @@ def main():
     # 1
 
     p = sum(x2) / N
-    # print(p)
+    print('p = ', end='')
+    print(p)
 
     # 2
 
@@ -194,40 +196,40 @@ def main():
     w3 = 3
     z = [50 * np.sqrt(p) * (np.cos(w1 * n) + np.cos(w2 * n) + np.cos(w3 * n)) for n in range(N)]
     y = x + z
-    # audio = y.astype(np.int16)
-    # play_obj = sa.play_buffer(audio, 1, 2, fs)
-    # play_obj.wait_done()
+    audio = y.astype(np.int16)
+    play_obj = sa.play_buffer(audio, 1, 2, fs)
+    play_obj.wait_done()
 
     # 3
 
-    # plt.plot(y)
-    # plt.title('y[n]:')
-    # plt.show()
+    plt.plot(y)
+    plt.title('y[n]:')
+    plt.show()
 
     # 4
 
-    # Y = [dtft(y, (i - 128) * 2 * np.pi / 128) for i in range(257)]
-    # plt.plot(Y)
-    # plt.title('Y[k]:')
-    # plt.show()
+    Y = [dtft(y, (i - 128) * 2 * np.pi / 128) for i in range(257)]
+    plt.plot(Y)
+    plt.title('Y[k]:')
+    plt.show()
 
     # 6
 
-    # y2 = y[::2]
-    # plt.plot(y2)
-    # plt.title('y2[n]:')
-    # plt.show()
+    y2 = y[::2]
+    plt.plot(y2)
+    plt.title('y2[n]:')
+    plt.show()
 
-    # Y2 = [dtft(y2, (i - 128) * 2 * np.pi / 128) for i in range(257)]
-    # plt.plot(Y2)
-    # plt.title('Y2[k]:')
-    # plt.show()
+    Y2 = [dtft(y2, (i - 128) * 2 * np.pi / 128) for i in range(257)]
+    plt.plot(Y2)
+    plt.title('Y2[k]:')
+    plt.show()
 
     x = np.pad(note, int((N - len(note)) / 2))
     y = x + z
-    # audio = y[::2].astype(np.int16)
-    # play_obj = sa.play_buffer(audio, 1, 2, fs)
-    # play_obj.wait_done()
+    audio = y[::2].astype(np.int16)
+    play_obj = sa.play_buffer(audio, 1, 2, fs)
+    play_obj.wait_done()
 
 
 if __name__ == "__main__":
